@@ -14,13 +14,11 @@ Contributors:
    Paolo Patierno - initial API and implementation and/or initial documentation
 */
 
-#if SSL
 #if (MF_FRAMEWORK_VERSION_V4_2 || MF_FRAMEWORK_VERSION_V4_3)
 using Microsoft.SPOT.Net.Security;
 #else
 using System.Net.Security;
 using System.Security.Authentication;
-#endif
 #endif
 using System.Net.Sockets;
 using System.Net;
@@ -253,7 +251,11 @@ namespace uPLibrary.Networking.M2Mqtt
                 X509CertificateCollection clientCertificates = null;
                 // check if there is a client certificate to add to the collection, otherwise it's null (as empty)
                 if (this.clientCert != null)
-                    clientCertificates = new X509CertificateCollection(new X509Certificate[] { this.clientCert });
+                {
+                    clientCertificates = new X509CertificateCollection();
+                    clientCertificates.Add(this.clientCert);
+
+                }
 
                 this.sslStream.AuthenticateAsClient(this.remoteHostName,
                     clientCertificates,
@@ -392,7 +394,7 @@ namespace uPLibrary.Networking.M2Mqtt
                 this.netStream = new NetworkStream(this.socket);
                 this.sslStream = new SslStream(this.netStream, false, this.userCertificateValidationCallback, this.userCertificateSelectionCallback);
 
-                this.sslStream.AuthenticateAsServer(this.serverCert, false, MqttSslUtility.ToSslPlatformEnum(this.sslProtocol), false);
+//                this.sslStream.AuthenticateAsServer(this.serverCert, false, MqttSslUtility.ToSslPlatformEnum(this.sslProtocol), false);
 #endif
             }
 
@@ -441,9 +443,11 @@ namespace uPLibrary.Networking.M2Mqtt
                 case MqttSslProtocols.TLSv1_0:
                     return SslProtocols.Tls;
                 case MqttSslProtocols.TLSv1_1:
-                    return SslProtocols.Tls11;
+                    return SslProtocols.Tls;
+//                    return SslProtocols.Tls11;
                 case MqttSslProtocols.TLSv1_2:
-                    return SslProtocols.Tls12;
+                    return SslProtocols.Tls;
+//                    return SslProtocols.Tls12;
                 default:
                     throw new ArgumentException("SSL/TLS protocol version not supported");
             }
