@@ -26,7 +26,7 @@ public class testUI : MonoBehaviour {
         {
             milkcocoa.Send(createMessageJSON("Hoge"));
         }
-        if (GUI.Button(new Rect(120, 50, 100, 50), "マルチバイトてすと"))
+        if (GUI.Button(new Rect(120, 50, 150, 50), "マルチバイトてすと"))
         {
             milkcocoa.Send(createMessageJSON("マルチバイトてすと"));
         }
