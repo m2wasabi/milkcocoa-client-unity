@@ -36,7 +36,7 @@ using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace Milkcocoa
 {
-    public class Milkcocoa : MonoBehaviour
+    public class MilkcocoaClient : MonoBehaviour
     {
         private MqttClient mqttClient;
         public string appId ;

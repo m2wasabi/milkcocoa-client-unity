@@ -3,13 +3,13 @@ using System;
 using System.Collections;
 using Milkcocoa;
 public class testUI : MonoBehaviour {
-    Milkcocoa.Milkcocoa milkcocoa;
+    MilkcocoaClient milkcocoa;
     string contentTextArea = "";
     string contentTextField = "";
     string userName = "名無しさん";
     // Use this for initialization
     void Start () {
-        milkcocoa = FindObjectOfType<Milkcocoa.Milkcocoa>();
+        milkcocoa = FindObjectOfType<MilkcocoaClient>();
         milkcocoa.OnSend(milkcocoaEventHandler);
     }
     
