@@ -60,6 +60,7 @@ namespace Milkcocoa
             if (debugMessages) Debug.Log("Awake Milkcocoa.");
             connection = true;
             handlers = new Dictionary<string, List<Action<MilkcocoaEvent>>>();
+            if (debugMessages) Debug.Log("Milkcocoa client connecting to " + appId + ".mlkcca.com");
 #if SSL
             ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(OnRemoteCertificateValidationCallback);
             X509Certificate caCert = X509Certificate.CreateFromCertFile("Assets/Milkcocoa/cert/ca.der");
