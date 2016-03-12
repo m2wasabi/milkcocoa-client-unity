@@ -30,8 +30,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+#if SSL
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+#endif
 using UnityEngine;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt;
@@ -74,10 +76,12 @@ namespace Milkcocoa
             mqttClient.Subscribe(new string[] { appId + "/" + dataStorePath + "/push" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE });
 
         }
+#if SSL
         private bool OnRemoteCertificateValidationCallback(object sender,X509Certificate certificate,X509Chain chain,SslPolicyErrors sslPolicyErrors)
         {
             return true;  // 「SSL証明書の使用は問題なし」と示す
         }
+#endif
         private void OnReceiveMqttMessage(object sender, MqttMsgPublishEventArgs e)
         {
             string[] topics = e.Topic.Split(new char[] {'/'});
