@@ -32,7 +32,7 @@ namespace uPLibrary.Networking.M2Mqtt
     /// </summary>
     public class MqttNetworkChannel : IMqttNetworkChannel
     {
-#if !(MF_FRAMEWORK_VERSION_V4_2 || MF_FRAMEWORK_VERSION_V4_3 || COMPACT_FRAMEWORK)
+#if (SSL && !(MF_FRAMEWORK_VERSION_V4_2 || MF_FRAMEWORK_VERSION_V4_3 || COMPACT_FRAMEWORK))
         private readonly RemoteCertificateValidationCallback userCertificateValidationCallback;
         private readonly LocalCertificateSelectionCallback userCertificateSelectionCallback;
 #endif
@@ -43,6 +43,7 @@ namespace uPLibrary.Networking.M2Mqtt
 
         // socket for communication
         private Socket socket;
+#if SSL
         // using SSL
         private bool secure;
 
@@ -55,6 +56,7 @@ namespace uPLibrary.Networking.M2Mqtt
 
         // SSL/TLS protocol version
         private MqttSslProtocols sslProtocol;
+#endif
 
         /// <summary>
         /// Remote host name
@@ -136,12 +138,14 @@ namespace uPLibrary.Networking.M2Mqtt
 #endif
         {
             this.socket = socket;
+#if SSL
             this.secure = secure;
             this.serverCert = serverCert;
             this.sslProtocol = sslProtocol;
 #if !(MF_FRAMEWORK_VERSION_V4_2 || MF_FRAMEWORK_VERSION_V4_3 || COMPACT_FRAMEWORK)
             this.userCertificateValidationCallback = userCertificateValidationCallback;
             this.userCertificateSelectionCallback = userCertificateSelectionCallback;
+#endif
 #endif
         }
 
@@ -209,6 +213,7 @@ namespace uPLibrary.Networking.M2Mqtt
             this.remoteHostName = remoteHostName;
             this.remoteIpAddress = remoteIpAddress;
             this.remotePort = remotePort;
+#if SSL
             this.secure = secure;
             this.caCert = caCert;
             this.clientCert = clientCert;
@@ -216,6 +221,7 @@ namespace uPLibrary.Networking.M2Mqtt
 #if !(MF_FRAMEWORK_VERSION_V4_2 || MF_FRAMEWORK_VERSION_V4_3 || COMPACT_FRAMEWORK)
             this.userCertificateValidationCallback = userCertificateValidationCallback;
             this.userCertificateSelectionCallback = userCertificateSelectionCallback;
+#endif
 #endif
         }
 
