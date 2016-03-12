@@ -29,6 +29,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt;
@@ -55,7 +58,13 @@ namespace Milkcocoa
             if (debugMessages) Debug.Log("Awake Milkcocoa.");
             connection = true;
             handlers = new Dictionary<string, List<Action<MilkcocoaEvent>>>();
+#if SSL
+            ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(OnRemoteCertificateValidationCallback);
+            X509Certificate caCert = X509Certificate.CreateFromCertFile("Assets/Milkcocoa/cert/ca.der");
+            mqttClient = new MqttClient(appId + ".mlkcca.com", MqttSettings.MQTT_BROKER_DEFAULT_SSL_PORT, true, caCert, null,MqttSslProtocols.TLSv1_0 );
+#else
             mqttClient = new MqttClient(appId + ".mlkcca.com");
+#endif
             clientId = Guid.NewGuid().ToString();
             mqttClient.MqttMsgPublishReceived += OnReceiveMqttMessage;
             mqttClient.ConnectionClosed += OnDisconnectedMqtt;
@@ -64,6 +73,10 @@ namespace Milkcocoa
             mqttClient.Subscribe(new string[] { appId + "/" + dataStorePath + "/send" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE });
             mqttClient.Subscribe(new string[] { appId + "/" + dataStorePath + "/push" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE });
 
+        }
+        private bool OnRemoteCertificateValidationCallback(object sender,X509Certificate certificate,X509Chain chain,SslPolicyErrors sslPolicyErrors)
+        {
+            return true;  // 「SSL証明書の使用は問題なし」と示す
         }
         private void OnReceiveMqttMessage(object sender, MqttMsgPublishEventArgs e)
         {

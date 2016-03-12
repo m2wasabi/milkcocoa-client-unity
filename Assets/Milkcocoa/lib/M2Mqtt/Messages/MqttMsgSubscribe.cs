@@ -108,7 +108,7 @@ namespace uPLibrary.Networking.M2Mqtt.Messages
             buffer = new byte[remainingLength];
 
             // read bytes from socket...
-            int received = channel.Receive(buffer);
+            channel.Receive(buffer);
 
             if (protocolVersion == MqttMsgConnect.PROTOCOL_VERSION_V3_1)
             {
