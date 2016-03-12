@@ -12,6 +12,11 @@
             this.data = data;
         }
 
+        public JSONObject GetValues()
+        {
+            return data.GetField("params");
+        }
+
         public override string ToString()
         {
             return string.Format("[MilkcocoaEvent({0}) data={1}]",name,data);
