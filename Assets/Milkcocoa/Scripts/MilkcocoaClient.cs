@@ -47,7 +47,7 @@ namespace Milkcocoa
         public string appId ;
         public string dataStorePath = "unity";
         public bool debugMessages = false;
-        private string clientId;
+        public string clientId { get; private set; }
 
         bool connection = false;
         private int seq = 1;
