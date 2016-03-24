@@ -97,6 +97,13 @@ public class example2 : MonoBehaviour {
 
 ### Class: MilkcocoaClient
 
+##### properties
+
+* public string MilkcocoaClient.appId
+* public string MilkcocoaClient.dataStorePath
+* public bool MilkcocoaClient.debugMessages
+* string MilkcocoaClient.clientId
+
 ##### methods
 
 * void MilkcocoaClient.Send(JSONObject)
